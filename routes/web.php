@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Admin\MenuController;
 use App\Http\Controllers\PemesananController;
 use App\Http\Controllers\Kasir\DashboardController;
+use App\Http\Controllers\Admin\LaporanController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -18,7 +19,7 @@ use App\Http\Controllers\Kasir\DashboardController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('login');
 });
 
 Route::get('/dashboard', function (Request $request) {
@@ -45,14 +46,20 @@ Route::middleware('auth')->group(function () {
 });
 
 // Route Group untuk Admin
-Route::middleware(['auth', 'cekrole:admin'])->group(function () {
-    Route::get('/admin/dashboard', function () {
-        return "<h1>Ini Halaman Dashboard Admin</h1>";
-    })->name('admin.dashboard');
+// Route Group untuk Admin
+Route::middleware(['auth', 'cekrole:admin'])->prefix('admin')->name('admin.')->group(function () {
 
-    // Nanti semua route admin lainnya ditaruh di sini
-    // Route untuk CRUD Menu
-    Route::resource('/admin/menus', MenuController::class);
+    // Ini adalah rute yang akan diakses saat login
+    Route::get('/dashboard', function () {
+        // Mengarahkan admin langsung ke halaman manajemen menu
+        return redirect()->route('admin.menus.index');
+    })->name('dashboard');
+
+    // Rute untuk CRUD Menu
+    Route::resource('menus', MenuController::class);
+
+    // Rute untuk Laporan
+    Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan.index');
 });
 
 // Route Group untuk Kasir

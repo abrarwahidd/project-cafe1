@@ -34,11 +34,20 @@ class PemesananController extends Controller
         $pesanan = DB::transaction(function () use ($request, $cart) {
             $meja = Meja::find($request->id_meja);
 
-            // 1. Buat Kode Pesanan Unik (misal: M01-001)
-            $todayOrderCount = Pesanan::where('id_meja', $meja->id)
-                ->whereDate('created_at', Carbon::today())->count();
-            $kodePesanan = strtoupper($meja->kode_meja) . '-' . str_pad($todayOrderCount + 1, 3, '0', STR_PAD_LEFT);
+            // --- KODE BARU DENGAN RESET HARIAN (FORMAT: YYYYMMDD-MEJA-001) ---
 
+            // 1. Dapatkan hitungan pesanan HARI INI saja untuk meja ini
+            $todayOrderCount = Pesanan::where('id_meja', $meja->id)
+                                        ->whereDate('created_at', \Carbon\Carbon::today())
+                                        ->count();
+
+            // 2. Siapkan komponen kode
+            $tanggalHariIni = \Carbon\Carbon::today()->format('Ymd'); // Format: 20251021
+            $nomorUrut = str_pad($todayOrderCount + 1, 3, '0', STR_PAD_LEFT); // Format: 001
+            $kodeMeja = strtoupper($meja->kode_meja); // Format: M02
+
+            // 3. Gabungkan semuanya
+            $kodePesanan = $tanggalHariIni . '-' . $kodeMeja . '-' . $nomorUrut;    
             // 2. Hitung Total Harga
             $totalHarga = 0;
             foreach ($cart as $item) {

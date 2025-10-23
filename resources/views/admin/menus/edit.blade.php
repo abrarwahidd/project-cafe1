@@ -20,7 +20,7 @@
                         </div>
                     @endif
 
-                    <form action="{{ route('menus.update', $menu) }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('admin.menus.update', $menu) }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         @method('PUT') {{-- PENTING: Memberitahu Laravel bahwa ini adalah request UPDATE --}}
 
@@ -65,7 +65,7 @@
                         </div>
                         
                         <div class="flex items-center justify-end mt-4">
-                            <a href="{{ route('menus.index') }}" class="text-gray-600 hover:text-gray-900 mr-4">Batal</a>
+                            <a href="{{ route('admin.menus.index') }}" class="text-gray-600 hover:text-gray-900 mr-4">Batal</a>
                             <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                                 Simpan Perubahan
                             </button>

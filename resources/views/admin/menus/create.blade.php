@@ -9,7 +9,7 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
-                    <form action="{{ route('menus.store') }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('admin.menus.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="mb-4">
                             <label for="nama" class="block text-sm font-medium text-gray-700">Nama Menu</label>
@@ -48,7 +48,7 @@
                         </div>
                         
                         <div class="flex items-center justify-end mt-4">
-                            <a href="{{ route('menus.index') }}" class="text-gray-600 hover:text-gray-900 mr-4">Batal</a>
+                            <a href="{{ route('admin.menus.index') }}" class="text-gray-600 hover:text-gray-900 mr-4">Batal</a>
                             <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                                 Simpan
                             </button>

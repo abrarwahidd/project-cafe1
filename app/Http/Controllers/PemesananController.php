@@ -9,6 +9,7 @@ use App\Models\Pesanan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class PemesananController extends Controller
 {
@@ -84,5 +85,23 @@ class PemesananController extends Controller
     public function showSukses(Pesanan $pesanan)
     {
         return view('pesan.sukses', compact('pesanan'));
+    }
+
+    // Mengunduh struk pesanan dalam format PDF
+    public function downloadStruk(Pesanan $pesanan)
+    {
+        // 1. Ambil semua data yang kita butuhkan
+        // Eager load relasi agar query lebih efisien
+        $pesanan->load('detailPesanans.menu', 'meja');
+
+        // 2. Load view struk dengan data pesanan
+        $pdf = Pdf::loadView('pesan.struk', compact('pesanan'));
+
+        // 3. Tentukan nama file
+        $filename = 'struk_' . $pesanan->kode_pesanan . '.pdf';
+
+        // 4. Stream (tampilkan) PDF di browser atau paksa download
+        // 'stream' lebih baik untuk mobile karena membuka di tab baru
+        return $pdf->stream($filename);
     }
 }

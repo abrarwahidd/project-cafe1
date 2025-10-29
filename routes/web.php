@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\MenuController;
 use App\Http\Controllers\PemesananController;
 use App\Http\Controllers\Kasir\DashboardController;
 use App\Http\Controllers\Admin\LaporanController;
+use App\Http\Controllers\Admin\MejaController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -38,6 +39,7 @@ Route::get('/dashboard', function (Request $request) {
 Route::get('/meja/{meja:kode_meja}', [PemesananController::class, 'showMenu'])->name('pesan.menu');
 Route::post('/pesan', [PemesananController::class, 'store'])->name('pesan.store');
 Route::get('/pesanan/sukses/{pesanan:kode_pesanan}', [PemesananController::class, 'showSukses'])->name('pesan.sukses');
+Route::get('/pesanan/{pesanan:kode_pesanan}/struk', [PemesananController::class, 'downloadStruk'])->name('pesan.struk');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -45,7 +47,6 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-// Route Group untuk Admin
 // Route Group untuk Admin
 Route::middleware(['auth', 'cekrole:admin'])->prefix('admin')->name('admin.')->group(function () {
 
@@ -60,6 +61,10 @@ Route::middleware(['auth', 'cekrole:admin'])->prefix('admin')->name('admin.')->g
 
     // Rute untuk Laporan
     Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan.index');
+
+    Route::get('/mejas/{meja}/qr', [MejaController::class, 'showQr'])->name('meja.qr');
+
+    Route::resource('mejas', MejaController::class);
 });
 
 // Route Group untuk Kasir

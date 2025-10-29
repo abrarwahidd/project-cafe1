@@ -16,6 +16,11 @@
                         <x-nav-link :href="route('admin.menus.index')" :active="request()->routeIs('admin.menus.*')">
                             {{ __('Manajemen Menu') }}
                         </x-nav-link>
+
+                        <x-nav-link :href="route('admin.mejas.index')" :active="request()->routeIs('admin.mejas.*')">
+                            {{ __('Manajemen Meja') }}
+                        </x-nav-link>
+                        
                         <x-nav-link :href="route('admin.laporan.index')" :active="request()->routeIs('admin.laporan.*')">
                             {{ __('Laporan Penjualan') }}
                         </x-nav-link>

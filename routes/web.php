@@ -49,21 +49,22 @@ Route::middleware('auth')->group(function () {
 
 // Route Group untuk Admin
 Route::middleware(['auth', 'cekrole:admin'])->prefix('admin')->name('admin.')->group(function () {
-
-    // Ini adalah rute yang akan diakses saat login
+    
+    // INI ADALAH BLOK YANG PERLU DIPERBAIKI
+    // Pastikan isinya adalah `view()`, bukan `redirect()`.
     Route::get('/dashboard', function () {
-        // Mengarahkan admin langsung ke halaman manajemen menu
-        return redirect()->route('admin.menus.index');
+        return view('admin.dashboard');
     })->name('dashboard');
+    // ------------------------------------
 
     // Rute untuk CRUD Menu
     Route::resource('menus', MenuController::class);
 
     // Rute untuk Laporan
     Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan.index');
-
+    
+    // Rute untuk Meja & QR
     Route::get('/mejas/{meja}/qr', [MejaController::class, 'showQr'])->name('meja.qr');
-
     Route::resource('mejas', MejaController::class);
 });
 

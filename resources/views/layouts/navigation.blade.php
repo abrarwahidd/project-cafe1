@@ -13,17 +13,21 @@
                 <!-- Navigation Links -->
                  <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     @if(Auth::user()->role == 'admin')
-                        <x-nav-link :href="route('admin.menus.index')" :active="request()->routeIs('admin.menus.*')">
-                            {{ __('Manajemen Menu') }}
+                        <x-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')">
+                        {{ __('Dashboard') }}
                         </x-nav-link>
 
-                        <x-nav-link :href="route('admin.mejas.index')" :active="request()->routeIs('admin.mejas.*')">
-                            {{ __('Manajemen Meja') }}
-                        </x-nav-link>
-                        
-                        <x-nav-link :href="route('admin.laporan.index')" :active="request()->routeIs('admin.laporan.*')">
-                            {{ __('Laporan Penjualan') }}
-                        </x-nav-link>
+                        @if( ! request()->routeIs('admin.dashboard') ) 
+                            <x-nav-link :href="route('admin.menus.index')" :active="request()->routeIs('admin.menus.*')">
+                                {{ __('Manajemen Menu') }}
+                            </x-nav-link>
+                            <x-nav-link :href="route('admin.mejas.index')" :active="request()->routeIs('admin.mejas.*')">
+                                {{ __('Manajemen Meja') }}
+                            </x-nav-link>
+                            <x-nav-link :href="route('admin.laporan.index')" :active="request()->routeIs('admin.laporan.*')">
+                                {{ __('Laporan Penjualan') }}
+                            </x-nav-link>
+                        @endif
                     @endif
 
                     @if(Auth::user()->role == 'kasir')
